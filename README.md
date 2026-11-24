@@ -41,7 +41,18 @@ python3 -m venv .venv
 .venv/bin/pip install -e .
 ```
 
-### 2. Configure Claude Code
+### 2. Put the command on your PATH
+
+From inside the clone:
+
+```bash
+mkdir -p ~/.local/bin
+ln -s "$PWD/.venv/bin/mcp-rust-analyzer" ~/.local/bin/mcp-rust-analyzer
+```
+
+Any directory on your `PATH` works; `~/.local/bin` is a common one. `command -v mcp-rust-analyzer` should print the link.
+
+### 3. Configure Claude Code
 
 Add to your project's `.mcp.json`:
 
@@ -49,19 +60,18 @@ Add to your project's `.mcp.json`:
 {
   "mcpServers": {
     "rust-analyzer": {
-      "command": "/path/to/mcp-rust-analyzer/.venv/bin/python3",
-      "args": ["-m", "mcp_rust_analyzer"],
-      "env": {
-        "WORKSPACE_ROOT": "/path/to/your/rust/project"
-      }
+      "command": "mcp-rust-analyzer",
+      "args": []
     }
   }
 }
 ```
 
-### 3. Restart Claude Code
+The command is found by name, so the file holds no machine-specific path and can be committed with the project. Claude Code starts the server from the project directory, which is the default `WORKSPACE_ROOT` (see [Configuration](#configuration)).
 
-The MCP server starts when Claude Code connects. First connection takes ~20 seconds while rust-analyzer indexes the workspace. Subsequent tool calls are instant.
+### 4. Restart Claude Code
+
+The MCP server starts when Claude Code connects: restart Claude Code, or in a session that is already open run `/mcp` and reconnect `rust-analyzer`. First connection takes ~20 seconds while rust-analyzer indexes the workspace. Subsequent tool calls are instant.
 
 ## Configuration
 

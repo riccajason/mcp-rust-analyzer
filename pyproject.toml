@@ -28,4 +28,4 @@ dependencies = [
 mcp-rust-analyzer = "mcp_rust_analyzer.__main__:main"
 
 [project.urls]
-Repository = "https://github.com/jasonricca/mcp-rust-analyzer"
+Repository = "https://github.com/riccajason/mcp-rust-analyzer"
